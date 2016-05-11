@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/player_turns_bargraph"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="3">
+        
+        <TextView
+            android:id="@+id/curr_turn_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="TURN 00:00"
+            android:textSize="12sp"
+            style="@style/Tile.notblack3"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/game_total_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="GAME 00:00"
+            android:textSize="12sp"
+            style="@style/Tile.white3"
+            android:layout_weight="1"/>
+        
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/primary_time"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="00:00"
+        style="@style/Tile"
+        android:textSize="32sp"
+        android:layout_weight="8"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="5">
+
+        <TextView
+            android:id="@+id/player_0_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            style="@style/PlayerColor.Blue"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/player_1_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            style="@style/PlayerColor.Red"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/player_2_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            style="@style/PlayerColor.Green"
+            android:layout_weight="1"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/player_3_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            style="@style/PlayerColor.Orange"
+            android:layout_weight="1"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</LinearLayout>

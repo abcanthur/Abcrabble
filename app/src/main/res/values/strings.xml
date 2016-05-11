@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Abcrabble</string>
+    <string name="clock_prefs_key">Abcrabble.CLOCK_PREFS_KEY</string>
+</resources>

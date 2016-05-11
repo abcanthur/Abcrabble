@@ -1,0 +1,51 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Tile" >
+        <item name="android:textColor">@color/black2</item>
+        <item name="android:background">@drawable/border1dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="Tile.white3" >
+        <item name="android:background">@drawable/border3dp</item>
+    </style>
+
+    <style name="Tile.notblack3" >
+        <item name="android:background">@drawable/border3dpnotblack</item>
+    </style>
+
+    <style name="PlayerColor">
+        <item name="android:padding">2dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:textColor">@color/black2</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
+    <style name="PlayerColor.Red">
+        <item name="android:background">@color/DW2red</item>
+    </style>
+
+    <style name="PlayerColor.Blue">
+        <item name="android:background">@color/DL2blue</item>
+    </style>
+
+    <style name="PlayerColor.Orange">
+        <item name="android:background">@color/TW2orange</item>
+    </style>
+
+    <style name="PlayerColor.Green">
+        <item name="android:background">@color/TL2green</item>
+    </style>
+
+</resources>

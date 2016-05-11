@@ -1,0 +1,147 @@
+package com.example.petermartinez.abcrabble;
+
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.DragEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.petermartinez.abcrabble.Dictionary.Dictionary;
+import com.example.petermartinez.abcrabble.Fragments.ClockFrag;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+public class MainActivity extends AppCompatActivity {
+
+//    implements GestureDetector.OnGestureListener
+
+    private static EditText wordSearch;
+    private static Button yesNo;
+    private static ImageView yesNoV;
+    private static TextView mainMessage;
+    private FrameLayout fragContainerTimer;
+
+    private android.support.v4.app.FragmentManager fragmentManager;
+    private ClockFrag clockFrag;
+    private android.support.v4.app.FragmentTransaction fragmentTransaction;
+
+    private static Firebase mFirebaseCurrentTextRef;
+
+    private GestureDetectorCompat mDetector;
+
+    private static boolean isFirstRun = true;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if(isFirstRun){firstRun();}
+
+        initFirebase();
+        initFirebaseEventListener();
+
+
+        setViews();
+        setListeners();
+//        mDetector = new GestureDetectorCompat(this,this);
+
+        setFragment();
+
+
+
+
+    }
+
+    private void setViews(){
+        wordSearch = (EditText) findViewById(R.id.word_search);
+        yesNo = (Button) findViewById(R.id.yes_no);
+        yesNoV = (ImageView) findViewById(R.id.yes_noV);
+        yesNoV.setImageDrawable(getDrawable(R.drawable.yes_no_rough));
+        mainMessage = (TextView) findViewById(R.id.main_message);
+        fragContainerTimer = (FrameLayout) findViewById(R.id.frag_container_timer);
+
+        fragmentManager = getSupportFragmentManager();
+        clockFrag = new ClockFrag();
+    }
+
+    private void setListeners(){
+        yesNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wordSearchCheckDict(wordSearch.getText().toString());
+
+
+                        mFirebaseCurrentTextRef.setValue(wordSearch.getText().toString());
+
+
+            }
+        });
+
+        yesNo.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+
+                return false;
+            }
+        });
+
+//        yesNo.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//
+//
+//
+//                    return true;
+//            }
+//        });
+    }
+
+    private void setFragment() {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frag_container_timer, clockFrag);
+        fragmentTransaction.commit();
+    }
+
+    private void initFirebase(){
+        Firebase mFirebaseRef = new Firebase("https://jumbly.firebaseio.com/");
+        mFirebaseCurrentTextRef = mFirebaseRef.child("currentText");
+
+    }
+
+    private void initFirebaseEventListener(){
+        mFirebaseCurrentTextRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String text = dataSnapshot.getValue(String.class);
+                mainMessage.setText(text);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    private void wordSearchCheckDict(String word){
+        boolean isWord = Dictionary.checkWordDict(word);
+        if(isWord){
+            mainMessage.setText("Yes, " + word.toUpperCase() + " is a word!");
+        } else {
+            mainMessage.setText("No, " + word.toUpperCase() + " is not a word.");
+        }
+        mainMessage.setVisibility(View.VISIBLE);
+    }
+
+    private void firstRun(){
+        Dictionary.setList();
+    }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#D03346</color>
+    <color name="colorPrimaryDark">#9B4455</color>
+    <color name="colorAccent">#A5C5D0</color>
+
+    <color name="board">#D0C0A9</color>
+    <color name="boardtrim">#9B4455</color>
+    <color name="DWpink">#EDABAD</color>
+    <color name="TWred">#D03346</color>
+    <color name="DLskyblue">#A5C5D0</color>
+    <color name="TLblue">#247CA4</color>
+    <color name="tile1">#D3AFA1</color>
+    <color name="tile2">#B88663</color>
+    <color name="board2">#D8E4F0</color>
+    <color name="DW2red">#DA3752</color>
+    <color name="TW2orange">#D96415</color>
+    <color name="DL2blue">#5998DB</color>
+    <color name="TL2green">#75AC12</color>
+    <color name="white1">#EEE5E0</color>
+    <color name="white2">#F9FBFA</color>
+    <color name="black1">#25201D</color>
+    <color name="black2">#422527</color>
+</resources>
