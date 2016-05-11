@@ -1,5 +1,6 @@
 package com.example.petermartinez.abcrabble;
 
+import android.content.Intent;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,12 +12,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.petermartinez.abcrabble.Activity.ActiveGameActivity;
 import com.example.petermartinez.abcrabble.Dictionary.Dictionary;
 import com.example.petermartinez.abcrabble.Fragments.ClockFrag;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
         setListeners();
 //        mDetector = new GestureDetectorCompat(this,this);
 
-        setFragment();
+
+
+
 
 
 
@@ -66,10 +72,7 @@ public class MainActivity extends AppCompatActivity {
         yesNoV = (ImageView) findViewById(R.id.yes_noV);
         yesNoV.setImageDrawable(getDrawable(R.drawable.yes_no_rough));
         mainMessage = (TextView) findViewById(R.id.main_message);
-        fragContainerTimer = (FrameLayout) findViewById(R.id.frag_container_timer);
 
-        fragmentManager = getSupportFragmentManager();
-        clockFrag = new ClockFrag();
     }
 
     private void setListeners(){
@@ -93,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        yesNoV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActiveGameActivity();
+            }
+        });
+
 //        yesNo.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent event) {
@@ -104,10 +114,12 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void setFragment() {
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frag_container_timer, clockFrag);
-        fragmentTransaction.commit();
+    private void startActiveGameActivity(){ //calls active game activity
+        Intent intent = new Intent(MainActivity.this, ActiveGameActivity.class);
+        Bundle bundle = new Bundle();
+//                    bundle.putInt("theItemPosition", 0);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void initFirebase(){

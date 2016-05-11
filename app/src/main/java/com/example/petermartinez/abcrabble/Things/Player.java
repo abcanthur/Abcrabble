@@ -1,4 +1,4 @@
-package com.example.petermartinez.abcrabble.Player;
+package com.example.petermartinez.abcrabble.Things;
 
 /**
  * Created by petermartinez on 5/10/16.

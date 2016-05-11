@@ -1,4 +1,4 @@
-package com.example.petermartinez.abcrabble.Game;
+package com.example.petermartinez.abcrabble.Things;
 
 import com.example.petermartinez.abcrabble.Event.Event;
 
