@@ -5,6 +5,12 @@ package com.example.petermartinez.abcrabble.Things;
  */
 public class Stopwatch {
 
+    public static int COUNTUP = 0;
+    public static int COUNTDOWN = 1;
+    public static int BRONSTEIN = 2;
+    public static int FISCHER = 3;
+    public static int HOURGLASS = 4;
+
     /**
      * Implements a method that returns the current time, in milliseconds.
      * Used for testing

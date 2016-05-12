@@ -4,10 +4,19 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/frag_container_timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/frag_container_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
+
+
     </FrameLayout>
 
     <FrameLayout
@@ -18,12 +27,168 @@
 
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/frag_container_timer"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/button_score"
+            android:text="SCORE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/switch_score"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:checked="true"/>
+        <!--android:text="SCORE"-->
+
+        <Button
+            android:id="@+id/button_words"
+        android:text="WORDS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/switch_words"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:checked="true"
+            />
+        <!--android:text="WORDS"-->
+
+        <Button
+            android:id="@+id/button_tiles"
+        android:text="SCORE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/switch_tiles"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:checked="true"/>
+
+        <!--android:text="TILES"-->
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:orientation="horizontal">
 
-    </FrameLayout>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="101"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="SAXOPHONE"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="SOPHE"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/row_score"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="SCORE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+             />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/edit_score"
+            android:layout_weight="9"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/speak_score"
+            android:src="@drawable/ic_hearing_24dp"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/row_words"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+            <TextView
+                android:text="WORDS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/edit_words"
+                android:layout_weight="14"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/speak_words"
+                android:layout_weight="1"
+                android:src="@drawable/ic_hearing_24dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/row_tiles"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <TextView
+                android:text="TILES"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/edit_tiles"
+                android:layout_weight="14"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/speak_tiles"
+                android:src="@drawable/ic_hearing_24dp"
+                android:layout_weight="1"/>
+    </LinearLayout>
 
 </LinearLayout>

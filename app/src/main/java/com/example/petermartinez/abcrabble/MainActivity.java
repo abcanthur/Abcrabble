@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.petermartinez.abcrabble.Activity.ActiveGameActivity;
+import com.example.petermartinez.abcrabble.Activity.GameSetupActivity;
 import com.example.petermartinez.abcrabble.Dictionary.Dictionary;
 import com.example.petermartinez.abcrabble.Fragments.ClockFrag;
 import com.firebase.client.DataSnapshot;
@@ -116,6 +117,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void startActiveGameActivity(){ //calls active game activity
         Intent intent = new Intent(MainActivity.this, ActiveGameActivity.class);
+        Bundle bundle = new Bundle();
+//                    bundle.putInt("theItemPosition", 0);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    private void startGameSetupActivity(){ //calls game setup activity
+        Intent intent = new Intent(MainActivity.this, GameSetupActivity.class);
         Bundle bundle = new Bundle();
 //                    bundle.putInt("theItemPosition", 0);
         intent.putExtras(bundle);

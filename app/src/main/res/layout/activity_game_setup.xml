@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chronometer" />
+
+    <EditText
+        android:id="@+id/game_enter_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="name for the game (date/time if left blank)"/>
+
+    <EditText
+        android:id="@+id/player_0_enter_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="name for Player 1"/>
+    <EditText
+        android:id="@+id/player_1_enter_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="name for Player 2"/>
+    <EditText
+        android:id="@+id/player_2_enter_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="name for Player 3 (optional)"/>
+    <EditText
+        android:id="@+id/player_3_enter_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="name for Player 4 (optional)"/>
+
+    <Spinner
+        android:id="@+id/spinner_timing_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <NumberPicker
+        android:id="@+id/picker_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <NumberPicker
+        android:id="@+id/picker_increment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <NumberPicker
+        android:id="@+id/picker_penalty_per_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <NumberPicker
+        android:id="@+id/picker_dictionary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/start_game_from_setup"
+        android:text="START GAME"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

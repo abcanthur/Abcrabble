@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".Activity.ActiveGameActivity" >
             </activity>
+        <activity android:name=".Activity.GameSetupActivity" >
+        </activity>
         <service android:name=".StopwatchService" />
     </application>
 

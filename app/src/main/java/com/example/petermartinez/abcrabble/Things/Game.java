@@ -15,17 +15,38 @@ public class Game {
     private String[] playerName;
     private int[] playerScore;
     private long[] playerTime;
-    private char[] playerTiles;
+    private String[] playerTiles;
     private int[] playerChallenge;
     private Event recentEvent;
     private int currPlayer;
     private State state;
     private boolean[] hasType; //CHAT, SCORE, MOVES, JUDGE, CLOCK, TILE
     private long clock;
-    private int clockSettings;
-    private char[] tilesLeft;
-    private char[] tilesPlayed;
-    private int dictionary; //switch to enum sometime
+    private int[] clockSettings;
+    private String tilesLeft;
+    private String tilesPlayed;
+    private int dictionary; //switch to enum sometime 1-TWL06
+
+    public Game(int game, long timeCreated, String name, int[] playerId, String[] playerName, int[] playerScore, long[] playerTime, String[] playerTiles, int[] playerChallenge, Event recentEvent, int currPlayer, State state, boolean[] hasType, long clock, int[] clockSettings, String tilesLeft, String tilesPlayed, int dictionary) {
+        this.game = game;
+        this.timeCreated = timeCreated;
+        this.name = name;
+        this.playerId = playerId;
+        this.playerName = playerName;
+        this.playerScore = playerScore;
+        this.playerTime = playerTime;
+        this.playerTiles = playerTiles;
+        this.playerChallenge = playerChallenge;
+        this.recentEvent = recentEvent;
+        this.currPlayer = currPlayer;
+        this.state = state;
+        this.hasType = hasType;
+        this.clock = clock;
+        this.clockSettings = clockSettings;
+        this.tilesLeft = tilesLeft;
+        this.tilesPlayed = tilesPlayed;
+        this.dictionary = dictionary;
+    }
 
     public int getGame() {
         return game;
@@ -83,11 +104,11 @@ public class Game {
         this.playerTime = playerTime;
     }
 
-    public char[] getPlayerTiles() {
+    public String[] getPlayerTiles() {
         return playerTiles;
     }
 
-    public void setPlayerTiles(char[] playerTiles) {
+    public void setPlayerTiles(String[] playerTiles) {
         this.playerTiles = playerTiles;
     }
 
@@ -139,27 +160,27 @@ public class Game {
         this.clock = clock;
     }
 
-    public int getClockSettings() {
+    public int[] getClockSettings() {
         return clockSettings;
     }
 
-    public void setClockSettings(int clockSettings) {
+    public void setClockSettings(int[] clockSettings) {
         this.clockSettings = clockSettings;
     }
 
-    public char[] getTilesLeft() {
+    public String getTilesLeft() {
         return tilesLeft;
     }
 
-    public void setTilesLeft(char[] tilesLeft) {
+    public void setTilesLeft(String tilesLeft) {
         this.tilesLeft = tilesLeft;
     }
 
-    public char[] getTilesPlayed() {
+    public String getTilesPlayed() {
         return tilesPlayed;
     }
 
-    public void setTilesPlayed(char[] tilesPlayed) {
+    public void setTilesPlayed(String tilesPlayed) {
         this.tilesPlayed = tilesPlayed;
     }
 

@@ -16,6 +16,22 @@ public class Event {
     private String content;
     private int player;
 
+    public Event(int game, long time, long gameTime, Type type, int gameOrder, int typeOrder, String content, int player) {
+        this.game = game;
+        this.time = time;
+        this.gameTime = gameTime;
+        this.type = type;
+        this.gameOrder = gameOrder;
+        this.typeOrder = typeOrder;
+        this.content = content;
+        this.player = player;
+    }
+
+    public static Event createZerothEvent(int game, long time){
+        Event event = new Event(game, time, 0l, Type.JUDGE, 0, 0, "Commence Game", 0);
+        return event;
+    }
+
     public int getGame() {
         return game;
     }
