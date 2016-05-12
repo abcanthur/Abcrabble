@@ -93,7 +93,7 @@ public class ClockFrag extends Fragment {
         View v = inflater.inflate(R.layout.clock_frag, container, false);
         playerNames = new String[]{"Peter", "Vik", "DA", "Paul Julius"};
         numberOfPlayers = playerNames.length;
-        setViews(v);
+
 
         Context context = getActivity();
         clockPrefs = context.getSharedPreferences(getString(R.string.clock_prefs_key), Context.MODE_PRIVATE);
@@ -101,6 +101,8 @@ public class ClockFrag extends Fragment {
         getActivity().startService(new Intent(getActivity(), StopwatchService.class));
         bindStopwatchService();
         mHandler.sendMessageDelayed(Message.obtain(mHandler, TICK_WHAT), mFrequency);
+
+        setViews(v);
 
 
 
@@ -152,14 +154,14 @@ public class ClockFrag extends Fragment {
     private void setCurrPlayer(){
         for(int i = 0; i < numberOfPlayers; i++){
             thisPlayerView = getPlayerTextView(i);
-             ActiveGameActivity.currPlayerTimeValue = getPlayerTime(i);
             if(i != currPlayer){
-                thisPlayerView.setText(playerNames[i] + "\n12:34");
+                String playerTimeFormat = StopwatchService.formatElapsedTime(getPlayerTime(i));
+                thisPlayerView.setText(playerNames[i] + "\n" + playerTimeFormat);
                 thisPlayerView.setPadding(2, 8, 2, 2);
                 thisPlayerView.setTextAppearance(android.R.style.TextAppearance_DeviceDefault);
             } else {
                 thisPlayerView.setText(playerNames[i]+ "\n");
-                thisPlayerView.setPadding(2,2,2,2);
+                thisPlayerView.setPadding(2, 2, 2, 2);
                 thisPlayerView.setTextAppearance(android.R.style.TextAppearance_DeviceDefault_Large);
             }
         }

@@ -21,9 +21,9 @@ public class ActiveGameActivity extends AppCompatActivity {
     public static long currPlayerTimeValue;
     public static long gameTotalTimeValue = 0;
     public static long player0TimeValue = 25 * 60 * 1000;
-    public static long player1TimeValue = 25 * 60 * 1000;
-    public static long player2TimeValue = 25 * 60 * 1000;
-    public static long player3TimeValue = 25 * 60 * 1000;
+    public static long player1TimeValue = 19 * 60 * 1000;
+    public static long player2TimeValue = 14 * 60 * 1000;
+    public static long player3TimeValue = 9 * 60 * 1000;
 
 
 

@@ -8,9 +8,11 @@ public class Event {
     public enum Type {CHAT, SCORE, MOVE, JUDGE, CLOCK, TILE};
 
     private int game;
-    private long timeStamp;
+    private long time;
+    private long gameTime;
     private Type type;
-    private int order;
+    private int gameOrder;
+    private int typeOrder;
     private String content;
     private int player;
 
@@ -22,12 +24,20 @@ public class Event {
         this.game = game;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getTime() {
+        return time;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public long getGameTime() {
+        return gameTime;
+    }
+
+    public void setGameTime(long gameTime) {
+        this.gameTime = gameTime;
     }
 
     public Type getType() {
@@ -38,12 +48,20 @@ public class Event {
         this.type = type;
     }
 
-    public int getOrder() {
-        return order;
+    public int getGameOrder() {
+        return gameOrder;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setGameOrder(int gameOrder) {
+        this.gameOrder = gameOrder;
+    }
+
+    public int getTypeOrder() {
+        return typeOrder;
+    }
+
+    public void setTypeOrder(int typeOrder) {
+        this.typeOrder = typeOrder;
     }
 
     public String getContent() {

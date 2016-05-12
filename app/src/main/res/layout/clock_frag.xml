@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:text="00:00"
             style="@style/PlayerColor.Blue"
+            android:minLines="2"
             android:layout_weight="1"/>
 
         <TextView
@@ -64,6 +65,7 @@
             android:layout_height="wrap_content"
             android:text="00:00"
             style="@style/PlayerColor.Red"
+            android:minLines="2"
             android:layout_weight="1"/>
 
         <TextView
@@ -72,6 +74,7 @@
             android:layout_height="wrap_content"
             android:text="00:00"
             style="@style/PlayerColor.Green"
+            android:minLines="2"
             android:layout_weight="1"
             android:visibility="gone"/>
 
@@ -81,6 +84,7 @@
             android:layout_height="wrap_content"
             android:text="00:00"
             style="@style/PlayerColor.Orange"
+            android:minLines="2"
             android:layout_weight="1"
             android:visibility="gone"/>
 

@@ -150,7 +150,7 @@ public class StopwatchService extends Service {
      * @return 	String with the current time in the format MM:SS.T or
      * 			HH:MM:SS.T, depending on elapsed time.
      */
-    public String formatElapsedTime(long now) {
+    public static String formatElapsedTime(long now) {
         long hours=0, minutes=0, seconds=0, tenths=0;
         StringBuilder sb = new StringBuilder();
 
@@ -186,7 +186,7 @@ public class StopwatchService extends Service {
         return sb.toString();
     }
 
-    private String formatDigits(long num) {
+    private static String formatDigits(long num) {
         return (num < 10) ? "0" + num : new Long(num).toString();
     }
 

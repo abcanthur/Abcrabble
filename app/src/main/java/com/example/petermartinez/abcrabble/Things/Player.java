@@ -10,7 +10,7 @@ public class Player {
     private int timeRemaining; //in seconds
     private int timeUsed; //in seconds
     private int score;
-    private int challengesLost; //to see if they will play their next turn (can accumulate beyond 1)
+    private int challenges; //to see if they will play their next turn (can accumulate beyond 1)
 
 
 
@@ -62,11 +62,11 @@ public class Player {
         this.score = score;
     }
 
-    public int getChallengesLost() {
-        return challengesLost;
+    public int getChallenges() {
+        return challenges;
     }
 
-    public void setChallengesLost(int challengesLost) {
-        this.challengesLost = challengesLost;
+    public void setChallenges(int challenges) {
+        this.challenges = challenges;
     }
 }
