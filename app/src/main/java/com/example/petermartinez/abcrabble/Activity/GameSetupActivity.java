@@ -34,15 +34,23 @@ public class GameSetupActivity extends AppCompatActivity {
     private static EditText player2EnterName;
     private static EditText player3EnterName;
     private static Spinner spinnerTimingMode;
-    private static NumberPicker pickerStartTime;
-    private static NumberPicker pickerIncrement;
-    private static NumberPicker pickerPenaltyPerMin;
-    private static NumberPicker pickerDictionary;
+    private static Spinner spinnerStartTime;
+    private static Spinner spinnerIncrement;
+    private static Spinner spinnerPenaltyPerMin;
+    private static Spinner spinnerDictionary;
     private static Button startGameFromSetup;
 
     private static int timingMode = 0;
     private static ArrayList<String> timingModes;
     private static ArrayAdapter<String> timingModesAdapter;
+    private static ArrayList<Integer> startTimes;
+    private static ArrayAdapter<Integer> startTimesAdapter;
+    private static ArrayList<Integer> increments;
+    private static ArrayAdapter<Integer> incrementsAdapter;
+    private static ArrayList<Integer> penalties;
+    private static ArrayAdapter<Integer> penaltiesAdapter;
+    private static ArrayList<String> dictionaries;
+    private static ArrayAdapter<String> dictionariesAdapter;
 
     public static final SimpleDateFormat gameNameSdf = new SimpleDateFormat("E mmm d h:m a yyyy", Locale.US);
 
@@ -73,30 +81,63 @@ public class GameSetupActivity extends AppCompatActivity {
         timingModes.add("Bronstein");
         timingModes.add("Fischer");
         timingModes.add("Hourglass");
-        timingModesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timingModes);
+        timingModesAdapter = new ArrayAdapter<String>(GameSetupActivity.this, android.R.layout.simple_spinner_item, timingModes);
         timingModesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTimingMode.setAdapter(timingModesAdapter);
         spinnerTimingMode = (Spinner) findViewById(R.id.spinner_timing_mode);
+        spinnerTimingMode.setAdapter(timingModesAdapter);
 
-        pickerStartTime = (NumberPicker) findViewById(R.id.picker_start_time);
-        pickerIncrement = (NumberPicker) findViewById(R.id.picker_increment);
-        pickerPenaltyPerMin = (NumberPicker) findViewById(R.id.picker_penalty_per_min);
-        pickerDictionary = (NumberPicker) findViewById(R.id.picker_dictionary);
 
-        pickerStartTime.setMinValue(1);
-        pickerStartTime.setValue(25);
+        spinnerStartTime = (Spinner) findViewById(R.id.spinner_start_time);
+        spinnerIncrement = (Spinner) findViewById(R.id.spinner_increment);
+        spinnerPenaltyPerMin = (Spinner) findViewById(R.id.spinner_penalty_per_min);
+        spinnerDictionary = (Spinner) findViewById(R.id.spinner_dictionary);
 
-        String[] increments = new String[] {"5 seconds" ,"10 seconds","15 seconds","20 seconds","30 seconds","40 seconds","60 seconds","90 seconds"};
-        pickerIncrement.setDisplayedValues(increments);
-        pickerIncrement.setWrapSelectorWheel(true);
+        startTimes = new ArrayList<Integer>();
+        for(int i = 2; i < 90; i++){
+            startTimes.add(i);
+        }
+        startTimesAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, android.R.layout.simple_spinner_item, startTimes);
+        startTimesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStartTime = (Spinner) findViewById(R.id.spinner_start_time);
+        spinnerStartTime.setAdapter(startTimesAdapter);
 
-        String[] penalties = new String[] {"1 point", "2 points", "3 points", "5 points", "10 points", "15 points", "20 points", "25 points"};
-        pickerPenaltyPerMin.setDisplayedValues(penalties);
-        pickerPenaltyPerMin.setWrapSelectorWheel(true);
 
-        String[] dictionaries = new String[] {"CSW", "TWL06", "SOWPODS"};
-        pickerDictionary.setDisplayedValues(dictionaries);
-        pickerDictionary.setWrapSelectorWheel(true);
+        increments = new ArrayList<Integer>();
+        increments.add(5);
+        increments.add(10);
+        increments.add(15);
+        increments.add(20);
+        increments.add(30);
+        increments.add(45);
+        increments.add(60);
+        increments.add(90);
+        incrementsAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, android.R.layout.simple_spinner_item, increments);
+        incrementsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerIncrement = (Spinner) findViewById(R.id.spinner_increment);
+        spinnerIncrement.setAdapter(incrementsAdapter);
+
+        penalties = new ArrayList<Integer>();
+        penalties.add(1);
+        penalties.add(2);
+        penalties.add(3);
+        penalties.add(5);
+        penalties.add(10);
+        penalties.add(15);
+        penalties.add(20);
+        penalties.add(25);
+        penaltiesAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, android.R.layout.simple_spinner_item, penalties);
+        penaltiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPenaltyPerMin = (Spinner) findViewById(R.id.spinner_penalty_per_min);
+        spinnerPenaltyPerMin.setAdapter(penaltiesAdapter);
+
+        dictionaries = new ArrayList<String>();
+        dictionaries.add("TWL06");
+        dictionaries.add("CSW");
+        dictionaries.add("SOWPODS");
+        dictionariesAdapter = new ArrayAdapter<String>(GameSetupActivity.this, android.R.layout.simple_spinner_dropdown_item, dictionaries);
+        dictionariesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDictionary = (Spinner) findViewById(R.id.spinner_dictionary);
+        spinnerDictionary.setAdapter(dictionariesAdapter);
 
         startGameFromSetup = (Button) findViewById(R.id.start_game_from_setup);
     }
@@ -113,12 +154,7 @@ public class GameSetupActivity extends AppCompatActivity {
             }
         });
 
-        pickerStartTime.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
-            }
-        });
+        startworkingrighthere
 
         startGameFromSetup.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         yesNoV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActiveGameActivity();
+                startGameSetupActivity();
             }
         });
 

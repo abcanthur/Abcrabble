@@ -41,23 +41,23 @@
         android:layout_height="wrap_content"
         />
 
-    <NumberPicker
-        android:id="@+id/picker_start_time"
+    <Spinner
+        android:id="@+id/spinner_start_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
-    <NumberPicker
-        android:id="@+id/picker_increment"
+    <Spinner
+        android:id="@+id/spinner_increment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
-    <NumberPicker
-        android:id="@+id/picker_penalty_per_min"
+    <Spinner
+        android:id="@+id/spinner_penalty_per_min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
-    <NumberPicker
-        android:id="@+id/picker_dictionary"
+    <Spinner
+        android:id="@+id/spinner_dictionary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
