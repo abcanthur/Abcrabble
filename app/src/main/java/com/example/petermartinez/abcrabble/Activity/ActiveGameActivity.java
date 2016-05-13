@@ -2,6 +2,7 @@ package com.example.petermartinez.abcrabble.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +21,6 @@ import android.widget.Switch;
 import com.example.petermartinez.abcrabble.Fragments.ClockFrag;
 import com.example.petermartinez.abcrabble.R;
 import com.example.petermartinez.abcrabble.SQLiteDB.GameDB;
-import com.example.petermartinez.abcrabble.SQLiteDB.GameSQLiteHelper;
 import com.example.petermartinez.abcrabble.Things.Game;
 
 import java.util.List;
@@ -36,19 +36,19 @@ public class ActiveGameActivity extends AppCompatActivity {
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
 
 //    public static long currTurnTimeValue = 0;
-    private static long gameIDprelim;
-    private static boolean isTimeCreated;
+    private static long activeGameId;
+    private static boolean isFreshGame;
     private static GameDB gameDB;
 //    private static PlayerDB playerDB;
 //    private static EventDB eventdb;
 
     private static Game activeGame;
     public static long currPlayerTimeValue;
-    public static long gameTotalTimeValue = 0;
-    public static long player0TimeValue = 25 * 60 * 1000;
-    public static long player1TimeValue = 19 * 60 * 1000;
-    public static long player2TimeValue = 14 * 60 * 1000;
-    public static long player3TimeValue = 9 * 60 * 1000;
+    public static long gameTotalTimeValue;
+    public static long player0TimeValue;
+    public static long player1TimeValue;
+    public static long player2TimeValue;
+    public static long player3TimeValue;
 
     private static String[] spokenText;
     public static final int SPEECH_REQUEST_CODE = 0;
@@ -81,14 +81,20 @@ public class ActiveGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_active_game);
         spokenText = new String[3];
         gameDB = new GameDB(this);
-        Bundle extras = getIntent().getExtras();
-        gameIDprelim = extras.getLong(GameSQLiteHelper.COL_TIME_CREATED);
-        isTimeCreated = extras.getBoolean("isTimeCreated");
+//        Bundle extras = getIntent().getExtras();
+//        gameIDprelim = extras.getLong(GameSQLiteHelper.COL_TIME_CREATED);
+//        isFreshGame = extras.getBoolean("isFreshGame");
+        SharedPreferences sharedPreferences = ActiveGameActivity.this.getPreferences(Context.MODE_PRIVATE);
+        activeGameId = sharedPreferences.getLong("ActiveGameID", 0);
+        isFreshGame = sharedPreferences.getBoolean("IsFreshGame", true);
 
-        activeGame = gameDB.getGameObjectById(gameIDprelim, isTimeCreated);
+
+        new GetGameObject().execute();
+
 
 
         setViews();
+        setDataFromGame();
         setListeners();
         setFragment();
 
@@ -96,6 +102,8 @@ public class ActiveGameActivity extends AppCompatActivity {
 
 
     }
+
+
 
     private void setViews(){
         rowScore = (LinearLayout) findViewById(R.id.row_score);
@@ -116,6 +124,10 @@ public class ActiveGameActivity extends AppCompatActivity {
         fragContainerTimer = (FrameLayout) findViewById(R.id.frag_container_timer);
         fragmentManager = getSupportFragmentManager();
         clockFrag = new ClockFrag();
+    }
+
+    private void setDataFromGame(){
+
     }
 
     private void setListeners(){
@@ -200,33 +212,22 @@ public class ActiveGameActivity extends AppCompatActivity {
         });
     }
 
-    private class get extends AsyncTask<Long, Object, Cursor> {
-        // Calls DatabaseConnector.java class
-        DatabaseConnector dbConnector = new DatabaseConnector(ViewNote.this);
-
+    private class GetGameObject extends AsyncTask<Object, Object, Cursor> {
+        GameDB gameDB = new GameDB(ActiveGameActivity.this);
         @Override
-        protected Cursor doInBackground(Long... params) {
+        protected Cursor doInBackground(Object... params) {
             // Pass the Row ID into GetOneNote function in
             // DatabaseConnector.java class
-            dbConnector.open();
-            return dbConnector.GetOneNote(params[0]);
+            gameDB.open();
+            String[] query = new String[]{String.valueOf(activeGameId)};
+            return gameDB.getGameById(query, isFreshGame);
         }
-
         @Override
         protected void onPostExecute(Cursor result) {
             super.onPostExecute(result);
-
-            result.moveToFirst();
-            // Retrieve the column index for each data item
-            int TitleIndex = result.getColumnIndex(TITLE);
-            int NoteIndex = result.getColumnIndex(NOTE);
-
-            // Set the Text in TextView
-            TitleTv.setText(result.getString(TitleIndex));
-            NoteTv.setText(result.getString(NoteIndex));
-
+            activeGame = gameDB.dumpCursorToGameObject(result);
             result.close();
-            dbConnector.close();
+            gameDB.close();
         }
     }
 

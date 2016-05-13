@@ -8,10 +8,10 @@ import com.example.petermartinez.abcrabble.Event.Event;
 public class Game {
     public enum State {COMPLETED, QUIT, INACTIVE, PAUSED, ACTIVE}
 
-    private int game;
+    private long game;
     private long timeCreated;
     private String name;
-    private int[] playerId;
+    private long[] playerId;
     private String[] playerName;
     private int[] playerScore;
     private long[] playerTime;
@@ -28,7 +28,7 @@ public class Game {
     private String tilesPlayed;
     private int dictionary; //switch to enum sometime 1-TWL06
 
-    public Game(int game, long timeCreated, String name, int[] playerId, String[] playerName, int[] playerScore, long[] playerTime, String[] playerTiles, int[] playerChallenge, Event recentEvent, int currPlayer, State state, boolean[] hasType, long clock, int[] clockSettings, int moveOrder, String tilesLeft, String tilesPlayed, int dictionary) {
+    public Game(long game, long timeCreated, String name, long[] playerId, String[] playerName, int[] playerScore, long[] playerTime, String[] playerTiles, int[] playerChallenge, Event recentEvent, int currPlayer, State state, boolean[] hasType, long clock, int[] clockSettings, int moveOrder, String tilesLeft, String tilesPlayed, int dictionary) {
         this.game = game;
         this.timeCreated = timeCreated;
         this.name = name;
@@ -50,6 +50,9 @@ public class Game {
         this.dictionary = dictionary;
     }
 
+    public Game() {
+    }
+
     public static String gameSettingsToString(int[] settings){
         String dbSettings = String.valueOf(settings[0]);
         for(int i = 1; i < settings.length; i++){
@@ -58,11 +61,20 @@ public class Game {
         return dbSettings;
     }
 
-    public int getGame() {
+    public static int[] gameSettingsFromString(String settings){
+        String[] stringSet = settings.split(" ");
+        int[] sets = new int[stringSet.length];
+        for(int i = 0; i < stringSet.length; i++){
+            sets[i] = Integer.getInteger(stringSet[i]);
+        }
+        return sets;
+    }
+
+    public long getGame() {
         return game;
     }
 
-    public void setGame(int game) {
+    public void setGame(long game) {
         this.game = game;
     }
 
@@ -82,11 +94,11 @@ public class Game {
         this.name = name;
     }
 
-    public int[] getPlayerId() {
+    public long[] getPlayerId() {
         return playerId;
     }
 
-    public void setPlayerId(int[] playerId) {
+    public void setPlayerId(long[] playerId) {
         this.playerId = playerId;
     }
 

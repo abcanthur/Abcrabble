@@ -1,5 +1,6 @@
 package com.example.petermartinez.abcrabble.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -292,7 +293,7 @@ public class GameSetupActivity extends AppCompatActivity {
                 Log.i("Just Clicked: ", String.valueOf(fromClick));
                 errorCheckForm();
                 Game newGame = createGameObject();
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(GameSetupActivity.this);
+                SharedPreferences sharedPreferences = GameSetupActivity.this.getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putLong("ActiveGameID", newGame.getTimeCreated());
                 editor.putBoolean("IsFreshGame", true);

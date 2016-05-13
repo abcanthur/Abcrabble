@@ -28,9 +28,9 @@ public class GameDB {
         return cursor;
     }
 
-    public Cursor getGameById(String[] query, boolean isTimeCreated){
+    public Cursor getGameById(String[] query, boolean isFreshGame){
         String id = GameSQLiteHelper.COL_ID;
-        if(isTimeCreated){ id = GameSQLiteHelper.COL_TIME_CREATED;}
+        if(isFreshGame){ id = GameSQLiteHelper.COL_TIME_CREATED;}
         Cursor cursor = DB.query(GameSQLiteHelper.GAMES_TABLE_NAME, // a. table
                 GameSQLiteHelper.GAMES_COLUMNS, // b. column names
                 id + " = ?", // c. selections
@@ -140,8 +140,51 @@ public class GameDB {
         close();
     }
 
-    public Game getGameObjectById(long id, boolean isTimeCreated){
 
+    public Game dumpCursorToGameObject(Cursor cursor){
+        Game game = new Game();
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+                game.setGame(Long.getLong(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_GAME_ID))));
+                game.setTimeCreated(Long.getLong(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_TIME_CREATED))));
+                game.setName(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_GAME_NAME)));
+                String[] playerNames;
+                long[] playerIds;
+                if (!cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_2_NAME)).isEmpty()) {
+                    if (!cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_3_NAME)).isEmpty()) {
+                        playerNames = new String[4];
+                        playerIds = new long[4];
+                        playerNames[3] = cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_3_NAME));
+                        playerIds[3] = Long.getLong(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_3_ID)));
+                    } else {
+                        playerNames = new String[3];
+                        playerIds = new long[3];
+                    }
+                    playerNames[2] = cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_2_NAME));
+                    playerIds[2] = Long.getLong(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_2_ID)));
+                } else {
+                    playerNames = new String[2];
+                    playerIds = new long[2];
+                }
+                playerNames[1] = cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_1_NAME));
+                playerNames[0] = cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_0_NAME));
+                playerIds[1] = Long.getLong(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_1_ID)));
+                playerIds[0] = Long.getLong(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_PLAYER_0_ID)));
+
+                game.setPlayerName(playerNames);
+                game.setPlayerId(playerIds);
+                game.setCurrPlayer(Integer.valueOf(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_CURR_PLAYER))));
+                game.setState(Game.State.valueOf(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_STATE))));
+                game.setHasType(new boolean[]{false, false, false, false, false, false});
+                game.setClock(Long.getLong(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_CLOCK))));
+                game.setClockSettings(Game.gameSettingsFromString(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_CLOCK_SETTINGS))));
+                game.setMoveOrder(Integer.valueOf(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_MOVE_ORDER))));
+                game.setTilesLeft(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_TILES_LEFT)));
+                game.setTilesPlayed(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_TILES_PLAYED)));
+                game.setDictionary(Integer.valueOf(cursor.getString(cursor.getColumnIndex(GameSQLiteHelper.COL_DICTIONARY))));
+                cursor.moveToNext();
+            }
+        return game;
     }
 
 
