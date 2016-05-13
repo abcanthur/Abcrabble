@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.database.SQLException;
 
+import com.example.petermartinez.abcrabble.Event.Event;
+import com.example.petermartinez.abcrabble.Things.Game;
+
 /**
  * Created by petermartinez on 5/11/16.
  */
@@ -75,17 +78,88 @@ public class GameDB {
             DB.close();
     }
 
+//    private int game;
+//    private long timeCreated;
+    private String name;
+    private int[] playerId;
+    private String[] playerName;
+    private int[] playerScore;
+    private long[] playerTime;
+    private String[] playerTiles;
+    private int[] playerChallenge;
+    private Event recentEvent;
+    private int currPlayer;
+    private Game.State state;
+    private boolean[] hasType; //CHAT, SCORE, MOVES, JUDGE, CLOCK, TILE
+    private long clock;
+    private int[] clockSettings;
+    private int moveOrder;
+    private String tilesLeft;
+    private String tilesPlayed;
+    private int dictionary; //switch to enum sometime 1-TWL06
+
+    COL_GAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+    COL_TIME_CREATED + " LONG, " +
+    COL_GAME_NAME + " TEXT, " +
+    COL_PLAYER_0_ID + " STRING, " +
+    COL_PLAYER_1_ID + " STRING, " +
+    COL_PLAYER_2_ID + " STRING, " +
+    COL_PLAYER_3_ID + " STRING, " +
+
+    COL_RECENT_EVENT + " INTEGER, " +
+    COL_CURR_PLAYER + " INTEGER, " +
+    COL_STATE + " TEXT, " +
+    COL_HAS_TYPE + " INTEGER, " +
+    COL_CLOCK + " LONG, " +
+    COL_CLOCK_SETTINGS + " STRING, " +
+    COL_MOVE_ORDER + " INTEGER, " +
+    COL_TILES_LEFT + " TEXT, " +
+    COL_TILES_PLAYED + " TEXT, " +
+    COL_DICTIONARY + " TEXT )";
+
+
+    GAMES_COLUMNS = {COL_GAME_ID, COL_TIME_CREATED, COL_GAME_NAME,
+            COL_PLAYER_0_ID, COL_PLAYER_1_ID, COL_PLAYER_2_ID, COL_PLAYER_3_ID,
+            COL_RECENT_EVENT, COL_CURR_PLAYER, COL_STATE, COL_HAS_TYPE,
+            COL_CLOCK, COL_CLOCK_SETTINGS,
+            COL_MOVE_ORDER, COL_TILES_LEFT , COL_TILES_PLAYED, COL_DICTIONARY};
+
+        // Create Database function
+        public void InsertGame(Game game) {
+            ContentValues values = new ContentValues();
+        values.put(GameSQLiteHelper.COL_TIME_CREATED, game.getTimeCreated());
+            values.put(GameSQLiteHelper.COL_GAME_NAME, game.getName());
+        values.put(GameSQLiteHelper.COL_PLAYER_0_ID, (game.getPlayerId()[0]));
+        values.put(GameSQLiteHelper.COL_PLAYER_1_ID, (game.getPlayerId()[0]));
+            values.put(GameSQLiteHelper.COL_PLAYER_0_NAME, (game.getPlayerName()[0]));
+            values.put(GameSQLiteHelper.COL_PLAYER_1_NAME, (game.getPlayerName()[1]));
+        if(game.getPlayerId().length > 2) {
+            values.put(GameSQLiteHelper.COL_PLAYER_2_ID, (game.getPlayerId()[2]));
+            values.put(GameSQLiteHelper.COL_PLAYER_2_NAME, (game.getPlayerName()[2]));
+            if (game.getPlayerId().length == 4) {
+                values.put(GameSQLiteHelper.COL_PLAYER_3_ID, (game.getPlayerId()[3]));
+                values.put(GameSQLiteHelper.COL_PLAYER_3_NAME, (game.getPlayerName()[3]));
+            }
+        }
+        values.put(GameSQLiteHelper.COL_RECENT_EVENT, game.getRecentEvent().getGameOrder()) ;
+        values.put(GameSQLiteHelper.COL_CURR_PLAYER, game.getCurrPlayer()) ;
+        values.put(GameSQLiteHelper.COL_STATE, game.getState().toString());
+        values.put(GameSQLiteHelper.COL_HAS_TYPE, 0); //must implement a full hastype conversion, not necesssary now
+        values.put(GameSQLiteHelper.COL_CLOCK, game.getClock());
+        values.put(GameSQLiteHelper.COL_CLOCK_SETTINGS, Game.gameSettingsToString(game.getClockSettings()));
+        values.put(GameSQLiteHelper.COL_MOVE_ORDER, ;
+        values.put(GameSQLiteHelper.COL_TILES_LEFT ;
+        values.put(GameSQLiteHelper.COL_TILES_PLAYED, ;
+        values.put(GameSQLiteHelper.COL_DICTIONARY ;
+
+
+                open();
+        DB.insert(TABLE_NAME, null, newCon);
+        close();
+    }
+
     // emulate these functions once you need them, must insert events from record, players from setup
-//    // Create Database function
-//    public void InsertNote(String title, String note) {
-//        ContentValues newCon = new ContentValues();
-//        newCon.put(TITLE, title);
-//        newCon.put(NOTE, note);
-//
-//        open();
-//        DB.insert(TABLE_NAME, null, newCon);
-//        close();
-//    }
+
 //
 //    // Update Database function
 //    public void UpdateNote(long id, String title, String note) {

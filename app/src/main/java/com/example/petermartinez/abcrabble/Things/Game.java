@@ -23,11 +23,12 @@ public class Game {
     private boolean[] hasType; //CHAT, SCORE, MOVES, JUDGE, CLOCK, TILE
     private long clock;
     private int[] clockSettings;
+    private int moveOrder;
     private String tilesLeft;
     private String tilesPlayed;
     private int dictionary; //switch to enum sometime 1-TWL06
 
-    public Game(int game, long timeCreated, String name, int[] playerId, String[] playerName, int[] playerScore, long[] playerTime, String[] playerTiles, int[] playerChallenge, Event recentEvent, int currPlayer, State state, boolean[] hasType, long clock, int[] clockSettings, String tilesLeft, String tilesPlayed, int dictionary) {
+    public Game(int game, long timeCreated, String name, int[] playerId, String[] playerName, int[] playerScore, long[] playerTime, String[] playerTiles, int[] playerChallenge, Event recentEvent, int currPlayer, State state, boolean[] hasType, long clock, int[] clockSettings, int moveOrder, String tilesLeft, String tilesPlayed, int dictionary) {
         this.game = game;
         this.timeCreated = timeCreated;
         this.name = name;
@@ -43,9 +44,18 @@ public class Game {
         this.hasType = hasType;
         this.clock = clock;
         this.clockSettings = clockSettings;
+        this.moveOrder = moveOrder;
         this.tilesLeft = tilesLeft;
         this.tilesPlayed = tilesPlayed;
         this.dictionary = dictionary;
+    }
+
+    public static String gameSettingsToString(int[] settings){
+        String dbSettings = String.valueOf(settings[0]);
+        for(int i = 1; i < settings.length; i++){
+            dbSettings = dbSettings + " " + String.valueOf(settings[i]);
+        }
+        return dbSettings;
     }
 
     public int getGame() {
@@ -166,6 +176,14 @@ public class Game {
 
     public void setClockSettings(int[] clockSettings) {
         this.clockSettings = clockSettings;
+    }
+
+    public int getMoveOrder() {
+        return moveOrder;
+    }
+
+    public void setMoveOrder(int moveOrder) {
+        this.moveOrder = moveOrder;
     }
 
     public String getTilesLeft() {

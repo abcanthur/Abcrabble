@@ -23,6 +23,10 @@ public class GameSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String COL_GAME_ID = "_id";
     public static final String COL_TIME_CREATED = "TIME_CREATED";
     public static final String COL_GAME_NAME = "GAME_NAME";
+    public static final String COL_PLAYER_0_NAME = "PLAYER_0_NAME";
+    public static final String COL_PLAYER_1_NAME = "PLAYER_1_NAME";
+    public static final String COL_PLAYER_2_NAME = "PLAYER_2_NAME";
+    public static final String COL_PLAYER_3_NAME = "PLAYER_3_NAME";
     public static final String COL_PLAYER_0_ID = "PLAYER_0_ID";
     public static final String COL_PLAYER_1_ID = "PLAYER_1_ID";
     public static final String COL_PLAYER_2_ID = "PLAYER_2_ID";
@@ -33,15 +37,20 @@ public class GameSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String COL_HAS_TYPE = "HAS_TYPE";
     public static final String COL_CLOCK = "CLOCK";
     public static final String COL_CLOCK_SETTINGS = "CLOCK_SETTINGS";
+    public static final String COL_MOVE_ORDER = "MOVE_ORDER";
     public static final String COL_TILES_LEFT = "TILES_LEFT";
     public static final String COL_TILES_PLAYED = "TILES_PLAYED";
     public static final String COL_DICTIONARY = "DICTIONARY";
 
-    public static final String[] GAMES_COLUMNS = {COL_GAME_ID, COL_TIME_CREATED, COL_GAME_NAME, COL_PLAYER_0_ID, COL_PLAYER_1_ID, COL_PLAYER_2_ID, COL_PLAYER_3_ID,
-            COL_RECENT_EVENT, COL_CURR_PLAYER,
-            COL_STATE, COL_HAS_TYPE, COL_CLOCK, COL_CLOCK_SETTINGS, COL_TILES_LEFT , COL_TILES_PLAYED, COL_DICTIONARY};
+    public static final String[] GAMES_COLUMNS = {COL_GAME_ID, COL_TIME_CREATED, COL_GAME_NAME,
+            COL_PLAYER_0_ID, COL_PLAYER_1_ID, COL_PLAYER_2_ID, COL_PLAYER_3_ID,
+            COL_PLAYER_0_NAME, COL_PLAYER_1_NAME, COL_PLAYER_2_NAME, COL_PLAYER_3_NAME,
+            COL_RECENT_EVENT, COL_CURR_PLAYER, COL_STATE, COL_HAS_TYPE,
+            COL_CLOCK, COL_CLOCK_SETTINGS,
+            COL_MOVE_ORDER, COL_TILES_LEFT , COL_TILES_PLAYED, COL_DICTIONARY};
 
     public static final String COL_ID = "_id";
+    public static final String COL_PLAYER_ID = "PLAYER_ID";
     public static final String COL_PLAYER_NAME = "PLAYER_NAME";
     public static final String COL_PLAYER_GAME = "PLAYER_GAME";
     public static final String COL_PLAYER_CLOCK = "PLAYER_CLOCK";
@@ -49,7 +58,7 @@ public class GameSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String COL_TILES = "TILES";
     public static final String COL_CHALLENGE = "CHALLENGE";
 
-    public static final String[] PLAYERS_COLUMNS = {COL_ID, COL_PLAYER_NAME, COL_PLAYER_GAME, COL_PLAYER_CLOCK, COL_SCORE, COL_TILES, COL_CHALLENGE};
+    public static final String[] PLAYERS_COLUMNS = {COL_ID, COL_PLAYER_ID, COL_PLAYER_NAME, COL_PLAYER_GAME, COL_PLAYER_CLOCK, COL_SCORE, COL_TILES, COL_CHALLENGE};
 
     public static final String COL_GAME = "GAME";
     public static final String COL_TIME = "TIME";
@@ -74,12 +83,17 @@ public class GameSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
                     COL_PLAYER_1_ID + " INTEGER, " +
                     COL_PLAYER_2_ID + " INTEGER, " +
                     COL_PLAYER_3_ID + " INTEGER, " +
+                    COL_PLAYER_0_NAME + " STRING, " +
+                    COL_PLAYER_1_NAME + " STRING, " +
+                    COL_PLAYER_2_NAME + " STRING, " +
+                    COL_PLAYER_3_NAME + " STRING, " +
                     COL_RECENT_EVENT + " INTEGER, " +
                     COL_CURR_PLAYER + " INTEGER, " +
                     COL_STATE + " TEXT, " +
                     COL_HAS_TYPE + " INTEGER, " +
                     COL_CLOCK + " LONG, " +
-                    COL_CLOCK_SETTINGS + " INTEGER, " +
+                    COL_CLOCK_SETTINGS + " STRING, " +
+                    COL_MOVE_ORDER + " INTEGER, " +
                     COL_TILES_LEFT + " TEXT, " +
                     COL_TILES_PLAYED + " TEXT, " +
                     COL_DICTIONARY + " TEXT )";
@@ -89,6 +103,7 @@ public class GameSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
             "CREATE TABLE " + PLAYERS_TABLE_NAME +
                     "(" +
                     COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COL_PLAYER_ID + " INTEGER, " +
                     COL_PLAYER_NAME + " TEXT, " +
                     COL_PLAYER_GAME + " INTEGER, " +
                     COL_PLAYER_CLOCK + " LONG, " +

@@ -4,8 +4,9 @@ package com.example.petermartinez.abcrabble.Things;
  * Created by petermartinez on 5/10/16.
  */
 public class Player {
+    private int dbId;
+    private int playerId; //permanent id to tie player histories despite changing names (set to dbId in first player to use that name)
     private String name; //player handle for this game
-    private int id; //permanent id to tie player histories despite changing names
     private int game; //game id to tie this player to a specific game
     private int timeRemaining; //in seconds
     private int timeUsed; //in seconds
@@ -13,6 +14,21 @@ public class Player {
     private int challenges; //to see if they will play their next turn (can accumulate beyond 1)
 
 
+    public int getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(int dbId) {
+        this.dbId = dbId;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
 
     public String getName() {
         return name;
@@ -20,14 +36,6 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getGame() {
