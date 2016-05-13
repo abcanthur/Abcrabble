@@ -10,13 +10,13 @@
 
     <style name="Tile" >
         <item name="android:textColor">@color/black2</item>
-        <item name="android:background">@drawable/border1dp</item>
+        <item name="android:background">@drawable/border2dp_tile1</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">8dp</item>
     </style>
 
-    <style name="Tile.white3" >
-        <item name="android:background">@drawable/border3dp</item>
+    <style name="Tile.2" >
+        <item name="android:background">@drawable/border2dp_tile2</item>
     </style>
 
     <style name="Tile.notblack3" >
@@ -30,6 +30,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">2</item>
+        <item name="android:radius">4dp</item>
     </style>
 
     <style name="PlayerColor.Red">
@@ -48,4 +49,28 @@
         <item name="android:background">@color/TL2green</item>
     </style>
 
+    <style name="setupSpinners">
+        <item name="android:textColor">@color/black2</item>
+        <item name="android:background">@color/DWpink</item>
+        <item name="android:radius">3dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:layout_marginLeft">48dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="setupSpinners.2">
+        <item name="android:background">@color/DLskyblue</item>
+    </style>
+
+    <style name="setupSpinnersClues">
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
 </resources>

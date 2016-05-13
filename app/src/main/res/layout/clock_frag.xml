@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="GAME 00:00"
             android:textSize="12sp"
-            style="@style/Tile.white3"
+            style="@style/Tile.2"
             android:layout_weight="1"/>
         
     </LinearLayout>

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/board">
 
-    <Chronometer
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chronometer" />
+
 
     <EditText
         android:id="@+id/game_enter_name"
@@ -35,36 +33,83 @@
         android:layout_height="wrap_content"
         android:hint="name for Player 4 (optional)"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:text="Select a timing mode"
+        android:id="@+id/spinner_timing_mode_text"
+        style="@style/setupSpinnersClues" />
     <Spinner
         android:id="@+id/spinner_timing_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_timing_mode_text"
+        style="@style/setupSpinners"
         />
 
-    <Spinner
-        android:id="@+id/spinner_start_time"
-        android:layout_width="wrap_content"
+        <TextView
+            android:text="Increment"
+            android:id="@+id/spinner_increment_text"
+            style="@style/setupSpinnersClues"
+            android:layout_toRightOf="@+id/spinner_timing_mode"
+            android:visibility="invisible"/>
+        <Spinner
+            android:id="@+id/spinner_increment"
+            style="@style/setupSpinners.2"
+            android:layout_toRightOf="@+id/spinner_timing_mode"
+            android:layout_below="@+id/spinner_increment_text"
+            android:visibility="invisible"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/minutes_and_penalties"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-    <Spinner
-        android:id="@+id/spinner_increment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    <Spinner
-        android:id="@+id/spinner_penalty_per_min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        android:visibility="invisible">
+
+        <TextView
+            android:text="Minutes per player"
+            android:id="@+id/spinner_start_time_text"
+            style="@style/setupSpinnersClues" /> />
+        <Spinner
+            android:id="@+id/spinner_start_time"
+            android:layout_below="@+id/spinner_start_time_text"
+            style="@style/setupSpinners.2"
+            />
+
+
+        <TextView
+            android:text="Penalty points per extra minute"
+            android:id="@+id/spinner_penalty_per_min_text"
+            style="@style/setupSpinnersClues"
+            android:layout_toRightOf="@+id/spinner_start_time"/>
+        <Spinner
+            android:id="@+id/spinner_penalty_per_min"
+            style="@style/setupSpinners"
+            android:layout_toRightOf="@+id/spinner_start_time"
+            android:layout_below="@+id/spinner_start_time_text"
+            />
+
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:text="Dictionary"
+        style="@style/setupSpinnersClues" />
     <Spinner
         android:id="@+id/spinner_dictionary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/setupSpinners"
         />
 
     <Button
         android:id="@+id/start_game_from_setup"
         android:text="START GAME"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="16dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="100dp"
+        android:layout_height="90dp" />
 </LinearLayout>

@@ -3,13 +3,18 @@ package com.example.petermartinez.abcrabble.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.petermartinez.abcrabble.Dictionary.Dictionary;
@@ -36,11 +41,18 @@ public class GameSetupActivity extends AppCompatActivity {
     private static Spinner spinnerTimingMode;
     private static Spinner spinnerStartTime;
     private static Spinner spinnerIncrement;
+    private static TextView spinnerIncrementText;
+    private static RelativeLayout minutesAndPenalties;
     private static Spinner spinnerPenaltyPerMin;
+    private static TextView spinnerPenaltyPerMinText;
     private static Spinner spinnerDictionary;
     private static Button startGameFromSetup;
 
     private static int timingMode = 0;
+    private static int timeForEachPlayer = 25;
+    private static int timeIncrement = 10;
+    private static int timePenalty = 10;
+
     private static ArrayList<String> timingModes;
     private static ArrayAdapter<String> timingModesAdapter;
     private static ArrayList<Integer> startTimes;
@@ -52,7 +64,7 @@ public class GameSetupActivity extends AppCompatActivity {
     private static ArrayList<String> dictionaries;
     private static ArrayAdapter<String> dictionariesAdapter;
 
-    public static final SimpleDateFormat gameNameSdf = new SimpleDateFormat("E mmm d h:m a yyyy", Locale.US);
+    public static final SimpleDateFormat gameNameSdf = new SimpleDateFormat("E MMM d h:m a yyyy", Locale.US);
 
 
 
@@ -81,25 +93,53 @@ public class GameSetupActivity extends AppCompatActivity {
         timingModes.add("Bronstein");
         timingModes.add("Fischer");
         timingModes.add("Hourglass");
-        timingModesAdapter = new ArrayAdapter<String>(GameSetupActivity.this, android.R.layout.simple_spinner_item, timingModes);
-        timingModesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timingModesAdapter = new ArrayAdapter<String>(GameSetupActivity.this, R.layout.centered_spinner, timingModes) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position % 2 == 1) { // we're on an even row
+                    view.setBackgroundColor(getColor(R.color.TWred));
+                } else {
+                    view.setBackgroundColor(getColor(R.color.DWpink));
+                }
+                return view;
+            }
+        };
+
+        timingModesAdapter.setDropDownViewResource(R.layout.centered_spinner_dropdown);
         spinnerTimingMode = (Spinner) findViewById(R.id.spinner_timing_mode);
         spinnerTimingMode.setAdapter(timingModesAdapter);
 
 
         spinnerStartTime = (Spinner) findViewById(R.id.spinner_start_time);
         spinnerIncrement = (Spinner) findViewById(R.id.spinner_increment);
+        spinnerIncrementText = (TextView) findViewById(R.id.spinner_increment_text);
+
+        minutesAndPenalties = (RelativeLayout) findViewById(R.id.minutes_and_penalties);
         spinnerPenaltyPerMin = (Spinner) findViewById(R.id.spinner_penalty_per_min);
+        spinnerPenaltyPerMinText = (TextView) findViewById(R.id.spinner_penalty_per_min_text);
         spinnerDictionary = (Spinner) findViewById(R.id.spinner_dictionary);
 
         startTimes = new ArrayList<Integer>();
         for(int i = 2; i < 90; i++){
             startTimes.add(i);
         }
-        startTimesAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, android.R.layout.simple_spinner_item, startTimes);
-        startTimesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        startTimesAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, R.layout.centered_spinner, startTimes){
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position % 2 == 1) { // we're on an even row
+                    view.setBackgroundColor(getColor(R.color.TLblue));
+                } else {
+                    view.setBackgroundColor(getColor(R.color.DLskyblue));
+                }
+                return view;
+            }
+        };
+        startTimesAdapter.setDropDownViewResource(R.layout.centered_spinner_dropdown);
         spinnerStartTime = (Spinner) findViewById(R.id.spinner_start_time);
         spinnerStartTime.setAdapter(startTimesAdapter);
+        spinnerStartTime.setSelection(23);
 
 
         increments = new ArrayList<Integer>();
@@ -111,12 +151,25 @@ public class GameSetupActivity extends AppCompatActivity {
         increments.add(45);
         increments.add(60);
         increments.add(90);
-        incrementsAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, android.R.layout.simple_spinner_item, increments);
-        incrementsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        incrementsAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, R.layout.centered_spinner, increments){
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position % 2 == 1) { // we're on an even row
+                    view.setBackgroundColor(getColor(R.color.TLblue));
+                } else {
+                    view.setBackgroundColor(getColor(R.color.DLskyblue));
+                }
+                return view;
+            }
+        };
+        incrementsAdapter.setDropDownViewResource(R.layout.centered_spinner_dropdown);
         spinnerIncrement = (Spinner) findViewById(R.id.spinner_increment);
         spinnerIncrement.setAdapter(incrementsAdapter);
+        spinnerIncrement.setSelection(1);
 
         penalties = new ArrayList<Integer>();
+        penalties.add(0);
         penalties.add(1);
         penalties.add(2);
         penalties.add(3);
@@ -125,17 +178,40 @@ public class GameSetupActivity extends AppCompatActivity {
         penalties.add(15);
         penalties.add(20);
         penalties.add(25);
-        penaltiesAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, android.R.layout.simple_spinner_item, penalties);
-        penaltiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        penaltiesAdapter = new ArrayAdapter<Integer>(GameSetupActivity.this, R.layout.centered_spinner, penalties){
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position % 2 == 0) { // we're on an even row
+                    view.setBackgroundColor(getColor(R.color.TWred));
+                } else {
+                    view.setBackgroundColor(getColor(R.color.DWpink));
+                }
+                return view;
+            }
+        };
+        penaltiesAdapter.setDropDownViewResource(R.layout.centered_spinner_dropdown);
         spinnerPenaltyPerMin = (Spinner) findViewById(R.id.spinner_penalty_per_min);
         spinnerPenaltyPerMin.setAdapter(penaltiesAdapter);
+        spinnerPenaltyPerMin.setSelection(5);
 
         dictionaries = new ArrayList<String>();
         dictionaries.add("TWL06");
         dictionaries.add("CSW");
         dictionaries.add("SOWPODS");
-        dictionariesAdapter = new ArrayAdapter<String>(GameSetupActivity.this, android.R.layout.simple_spinner_dropdown_item, dictionaries);
-        dictionariesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dictionariesAdapter = new ArrayAdapter<String>(GameSetupActivity.this, R.layout.centered_spinner, dictionaries){
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position % 2 == 1) { // we're on an even row
+                    view.setBackgroundColor(getColor(R.color.TWred));
+                } else {
+                    view.setBackgroundColor(getColor(R.color.DWpink));
+                }
+                return view;
+            }
+        };
+        dictionariesAdapter.setDropDownViewResource(R.layout.centered_spinner_dropdown);
         spinnerDictionary = (Spinner) findViewById(R.id.spinner_dictionary);
         spinnerDictionary.setAdapter(dictionariesAdapter);
 
@@ -147,14 +223,58 @@ public class GameSetupActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 timingMode = position;
+                if(position > 0){
+                    minutesAndPenalties.setVisibility(View.VISIBLE);
+                    spinnerPenaltyPerMin.setVisibility(View.VISIBLE);
+                    spinnerPenaltyPerMinText.setVisibility(View.VISIBLE);
+                }
+                if(position == 2 || position == 3){
+                    spinnerIncrement.setVisibility(View.VISIBLE);
+                    spinnerIncrementText.setVisibility(View.VISIBLE);
+                } else {
+                    spinnerIncrement.setVisibility(View.INVISIBLE);
+                    spinnerIncrementText.setVisibility(View.INVISIBLE);
+                }
+                if(position == 4){
+                    spinnerPenaltyPerMin.setVisibility(View.INVISIBLE);
+                    spinnerPenaltyPerMinText.setVisibility(View.INVISIBLE);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 timingMode = 0;
             }
         });
+        spinnerStartTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                timeForEachPlayer = startTimes.get(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        startworkingrighthere
+            }
+        });
+        spinnerIncrement.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                timeIncrement = increments.get(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                timeIncrement = 10;
+            }
+        });
+        spinnerPenaltyPerMin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                timePenalty = penalties.get(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                timePenalty = 10;
+            }
+        });
 
         startGameFromSetup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +294,7 @@ public class GameSetupActivity extends AppCompatActivity {
         }
     }
 
-    public void createGameObject(){
+    private void createGameObject(){
 
         int gameId = -1;
 
@@ -194,9 +314,12 @@ public class GameSetupActivity extends AppCompatActivity {
             numPlayers = 2;
         }
 
-        long timeForEachPlayer = 0;
-        if(timingMode > 0){
-            timeForEachPlayer = Long.valueOf(pickerStartTime.getValue());
+
+
+
+
+        if(timingMode == 0){
+            timeForEachPlayer = 0;
         }
 
         int[] playerId= new int[] {-1,-1};
@@ -253,9 +376,7 @@ public class GameSetupActivity extends AppCompatActivity {
 
         long clock = 0;
 
-//        int[] clockSettings = new int[] {timingMode, parsePickerString(pickerStartTime.getValue()), parsePickerString(pickerIncrement.getValue()), parsePickerString(pickerPenaltyPerMin.getValue())};
-
-        int[] clockSettings = new int[] {timingMode, pickerStartTime.getValue(), pickerIncrement.getValue(), pickerPenaltyPerMin.getValue()};
+        int[] clockSettings = new int[] {timingMode, timeForEachPlayer, timeIncrement, timePenalty};
 
         String tilesLeft = Dictionary.tileAlphabetScrabble;
 
