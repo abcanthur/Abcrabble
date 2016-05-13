@@ -2,6 +2,8 @@ package com.example.petermartinez.abcrabble.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,9 @@ import android.widget.Switch;
 
 import com.example.petermartinez.abcrabble.Fragments.ClockFrag;
 import com.example.petermartinez.abcrabble.R;
+import com.example.petermartinez.abcrabble.SQLiteDB.GameDB;
+import com.example.petermartinez.abcrabble.SQLiteDB.GameSQLiteHelper;
+import com.example.petermartinez.abcrabble.Things.Game;
 
 import java.util.List;
 
@@ -31,6 +36,13 @@ public class ActiveGameActivity extends AppCompatActivity {
     private android.support.v4.app.FragmentTransaction fragmentTransaction;
 
 //    public static long currTurnTimeValue = 0;
+    private static long gameIDprelim;
+    private static boolean isTimeCreated;
+    private static GameDB gameDB;
+//    private static PlayerDB playerDB;
+//    private static EventDB eventdb;
+
+    private static Game activeGame;
     public static long currPlayerTimeValue;
     public static long gameTotalTimeValue = 0;
     public static long player0TimeValue = 25 * 60 * 1000;
@@ -61,11 +73,19 @@ public class ActiveGameActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_game);
         spokenText = new String[3];
+        gameDB = new GameDB(this);
+        Bundle extras = getIntent().getExtras();
+        gameIDprelim = extras.getLong(GameSQLiteHelper.COL_TIME_CREATED);
+        isTimeCreated = extras.getBoolean("isTimeCreated");
+
+        activeGame = gameDB.getGameObjectById(gameIDprelim, isTimeCreated);
 
 
         setViews();
@@ -180,11 +200,43 @@ public class ActiveGameActivity extends AppCompatActivity {
         });
     }
 
+    private class get extends AsyncTask<Long, Object, Cursor> {
+        // Calls DatabaseConnector.java class
+        DatabaseConnector dbConnector = new DatabaseConnector(ViewNote.this);
+
+        @Override
+        protected Cursor doInBackground(Long... params) {
+            // Pass the Row ID into GetOneNote function in
+            // DatabaseConnector.java class
+            dbConnector.open();
+            return dbConnector.GetOneNote(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Cursor result) {
+            super.onPostExecute(result);
+
+            result.moveToFirst();
+            // Retrieve the column index for each data item
+            int TitleIndex = result.getColumnIndex(TITLE);
+            int NoteIndex = result.getColumnIndex(NOTE);
+
+            // Set the Text in TextView
+            TitleTv.setText(result.getString(TitleIndex));
+            NoteTv.setText(result.getString(NoteIndex));
+
+            result.close();
+            dbConnector.close();
+        }
+    }
+
     private void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frag_container_timer, clockFrag);
         fragmentTransaction.commit();
     }
+
+
 
     public void speechButton(int i){
         displaySpeechRecognizer();

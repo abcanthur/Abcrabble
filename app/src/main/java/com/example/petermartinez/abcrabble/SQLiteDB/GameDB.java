@@ -25,14 +25,15 @@ public class GameDB {
 
     public Cursor getAllGames() {
         Cursor cursor = DB.rawQuery("select * from " + GameSQLiteHelper.GAMES_TABLE_NAME + " ORDER BY " + GameSQLiteHelper.COL_TIME_CREATED + " DESC", null);
-
         return cursor;
     }
 
-    public Cursor getGameById(String[] query){
+    public Cursor getGameById(String[] query, boolean isTimeCreated){
+        String id = GameSQLiteHelper.COL_ID;
+        if(isTimeCreated){ id = GameSQLiteHelper.COL_TIME_CREATED;}
         Cursor cursor = DB.query(GameSQLiteHelper.GAMES_TABLE_NAME, // a. table
                 GameSQLiteHelper.GAMES_COLUMNS, // b. column names
-                GameSQLiteHelper.COL_ID + " = ?", // c. selections
+                id + " = ?", // c. selections
                 query, // d. selections args
                 null, // e. group by
                 null, // f. having
@@ -98,35 +99,13 @@ public class GameDB {
     private String tilesPlayed;
     private int dictionary; //switch to enum sometime 1-TWL06
 
-    COL_GAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-    COL_TIME_CREATED + " LONG, " +
-    COL_GAME_NAME + " TEXT, " +
-    COL_PLAYER_0_ID + " STRING, " +
-    COL_PLAYER_1_ID + " STRING, " +
-    COL_PLAYER_2_ID + " STRING, " +
-    COL_PLAYER_3_ID + " STRING, " +
-
-    COL_RECENT_EVENT + " INTEGER, " +
-    COL_CURR_PLAYER + " INTEGER, " +
-    COL_STATE + " TEXT, " +
-    COL_HAS_TYPE + " INTEGER, " +
-    COL_CLOCK + " LONG, " +
-    COL_CLOCK_SETTINGS + " STRING, " +
-    COL_MOVE_ORDER + " INTEGER, " +
-    COL_TILES_LEFT + " TEXT, " +
-    COL_TILES_PLAYED + " TEXT, " +
-    COL_DICTIONARY + " TEXT )";
-
-
-    GAMES_COLUMNS = {COL_GAME_ID, COL_TIME_CREATED, COL_GAME_NAME,
-            COL_PLAYER_0_ID, COL_PLAYER_1_ID, COL_PLAYER_2_ID, COL_PLAYER_3_ID,
-            COL_RECENT_EVENT, COL_CURR_PLAYER, COL_STATE, COL_HAS_TYPE,
-            COL_CLOCK, COL_CLOCK_SETTINGS,
-            COL_MOVE_ORDER, COL_TILES_LEFT , COL_TILES_PLAYED, COL_DICTIONARY};
 
         // Create Database function
-        public void InsertGame(Game game) {
+        public void InsertUpdateGame(Game game) {
             ContentValues values = new ContentValues();
+            if(game.getGame() != -1){
+                values.put(GameSQLiteHelper.COL_GAME_ID, game.getGame());
+            }
         values.put(GameSQLiteHelper.COL_TIME_CREATED, game.getTimeCreated());
             values.put(GameSQLiteHelper.COL_GAME_NAME, game.getName());
         values.put(GameSQLiteHelper.COL_PLAYER_0_ID, (game.getPlayerId()[0]));
@@ -147,30 +126,29 @@ public class GameDB {
         values.put(GameSQLiteHelper.COL_HAS_TYPE, 0); //must implement a full hastype conversion, not necesssary now
         values.put(GameSQLiteHelper.COL_CLOCK, game.getClock());
         values.put(GameSQLiteHelper.COL_CLOCK_SETTINGS, Game.gameSettingsToString(game.getClockSettings()));
-        values.put(GameSQLiteHelper.COL_MOVE_ORDER, ;
-        values.put(GameSQLiteHelper.COL_TILES_LEFT ;
-        values.put(GameSQLiteHelper.COL_TILES_PLAYED, ;
-        values.put(GameSQLiteHelper.COL_DICTIONARY ;
+        values.put(GameSQLiteHelper.COL_MOVE_ORDER, game.getMoveOrder());
+        values.put(GameSQLiteHelper.COL_TILES_LEFT, game.getTilesLeft());
+        values.put(GameSQLiteHelper.COL_TILES_PLAYED, game.getTilesPlayed());
+        values.put(GameSQLiteHelper.COL_DICTIONARY, game.getDictionary());
 
-
-                open();
-        DB.insert(TABLE_NAME, null, newCon);
+            open();
+            if(game.getGame() != -1){
+                DB.update(GameSQLiteHelper.GAMES_TABLE_NAME, values, GameSQLiteHelper.COL_GAME_ID + "=" + game.getGame(), null);
+            } else {
+                DB.insert(GameSQLiteHelper.GAMES_TABLE_NAME, null, values);
+            }
         close();
     }
 
+    public Game getGameObjectById(long id, boolean isTimeCreated){
+
+    }
+
+
+
     // emulate these functions once you need them, must insert events from record, players from setup
 
-//
-//    // Update Database function
-//    public void UpdateNote(long id, String title, String note) {
-//        ContentValues editCon = new ContentValues();
-//        editCon.put(TITLE, title);
-//        editCon.put(NOTE, note);
-//
-//        open();
-//        DB.update(TABLE_NAME, editCon, ID + "=" + id, null);
-//        close();
-//    }
+
 //
 //    // Delete Database function
 //    public void DeleteNote(long id) {

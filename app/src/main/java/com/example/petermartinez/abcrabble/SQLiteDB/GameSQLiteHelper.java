@@ -96,7 +96,7 @@ public class GameSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
                     COL_MOVE_ORDER + " INTEGER, " +
                     COL_TILES_LEFT + " TEXT, " +
                     COL_TILES_PLAYED + " TEXT, " +
-                    COL_DICTIONARY + " TEXT )";
+                    COL_DICTIONARY + " INTEGER )";
 
 
     private static final String CREATE_PLAYERS_TABLE =

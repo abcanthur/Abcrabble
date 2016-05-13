@@ -1,9 +1,13 @@
 package com.example.petermartinez.abcrabble.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,8 @@ import android.widget.Toast;
 import com.example.petermartinez.abcrabble.Dictionary.Dictionary;
 import com.example.petermartinez.abcrabble.Event.Judge;
 import com.example.petermartinez.abcrabble.R;
+import com.example.petermartinez.abcrabble.SQLiteDB.GameDB;
+import com.example.petermartinez.abcrabble.SQLiteDB.GameSQLiteHelper;
 import com.example.petermartinez.abcrabble.Things.Game;
 
 import java.text.SimpleDateFormat;
@@ -63,6 +69,9 @@ public class GameSetupActivity extends AppCompatActivity {
     private static ArrayAdapter<Integer> penaltiesAdapter;
     private static ArrayList<String> dictionaries;
     private static ArrayAdapter<String> dictionariesAdapter;
+
+    private static long fromClick;
+    private static long toDB;
 
     public static final SimpleDateFormat gameNameSdf = new SimpleDateFormat("E MMM d h:m a yyyy", Locale.US);
 
@@ -279,14 +288,56 @@ public class GameSetupActivity extends AppCompatActivity {
         startGameFromSetup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fromClick = System.currentTimeMillis();
+                Log.i("Just Clicked: ", String.valueOf(fromClick));
                 errorCheckForm();
-                createGameObject();
-                startActiveGameActivity();
+                Game newGame = createGameObject();
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(GameSetupActivity.this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong("ActiveGameID", newGame.getTimeCreated());
+                editor.putBoolean("IsFreshGame", true);
+                editor.commit();
+                saveNewGame(newGame);
+                startActiveGameActivity(newGame.getTimeCreated()); //getTimeCreated is superfluous now
             }
         });
     }
 
+private void saveNewGame(Game game) {
+    AsyncTask<Game, Object, Object> saveGameAsyncTask = new AsyncTask<Game, Object, Object>() {
+        @Override
+        protected Object doInBackground(Game... game) {
+            saveGame(game[0]);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Object result) {
+            toDB = System.currentTimeMillis();
+            Log.i("In DB: ", String.valueOf(toDB));
+            Log.i("It Took this long: ", String.valueOf(fromClick - toDB));
+
+            finish();
+        }
+    };
+    saveGameAsyncTask.execute(game);
+}
+
+private void saveGame(Game game) {
+        GameDB gameDB = new GameDB(this);
+            gameDB.InsertUpdateGame(game);
+        }
+
+
+
+
+
     public void errorCheckForm(){
+        if(player0EnterName.getText().toString().equals("")){
+            player0EnterName.setText("Player 1");
+        }
+        if(player1EnterName.getText().toString().equals("")){
+            player1EnterName.setText("Player 2");
+        }
         if(player2EnterName.getText().toString().equals("") && player3EnterName.getText().toString().length() > 0){
             player2EnterName.setText(player3EnterName.getText().toString());
             player3EnterName.setText("");
@@ -294,16 +345,14 @@ public class GameSetupActivity extends AppCompatActivity {
         }
     }
 
-    private void createGameObject(){
+    private Game createGameObject(){
 
         int gameId = -1;
-
         long time = System.currentTimeMillis();
-
         String gameName = gameEnterName.getText().toString();
         if(gameEnterName.getText().toString().equals("")) {gameName = gameNameSdf.format(new Date(time));}
-
         int numPlayers;
+
         if(player2EnterName.getText().toString().length() > 0) {
             if (player3EnterName.getText().toString().length() > 0) {
                 numPlayers = 4;
@@ -313,10 +362,6 @@ public class GameSetupActivity extends AppCompatActivity {
         } else {
             numPlayers = 2;
         }
-
-
-
-
 
         if(timingMode == 0){
             timeForEachPlayer = 0;
@@ -328,6 +373,7 @@ public class GameSetupActivity extends AppCompatActivity {
         long[] playerTime = new long[] {timeForEachPlayer, timeForEachPlayer};
         String[] playerTiles = new String[] {"",""};
         int[] playerChallenge = new int[] {0,0};
+
         if(numPlayers == 4) {
             playerId = new int[] {-1,-1,-1,-1};
             playerName = new String[4];
@@ -367,38 +413,30 @@ public class GameSetupActivity extends AppCompatActivity {
         }
 
         int recentEvent = -1;
-
         int currPlayer = 0;
-
         Game.State state = Game.State.PAUSED;
-
         boolean[] hasType = new boolean[] {false, false, false, false, false, false};
-
         long clock = 0;
-
         int[] clockSettings = new int[] {timingMode, timeForEachPlayer, timeIncrement, timePenalty};
-
+        int moveOrder = 0;
         String tilesLeft = Dictionary.tileAlphabetScrabble;
-
         String tilesPlayed = "";
-
         int dictionary = 1;
 
         Game game = new Game(gameId, time, gameName, playerId, playerName, playerScore, playerTime, playerTiles, playerChallenge,
-                Judge.createZerothJudge(gameId, time), currPlayer, state, hasType, clock, clockSettings, tilesLeft, tilesPlayed, dictionary);
-    }
-
-    public int parsePickerString(String pick){
-        String[] split = pick.split(" ");
-        return Integer.getInteger(split[0]);
+                Judge.createZerothJudge(gameId, time), currPlayer, state, hasType, clock, clockSettings, moveOrder, tilesLeft, tilesPlayed, dictionary);
+        return game;
     }
 
 
-        private void startActiveGameActivity(){ //calls active game activity
+
+        private void startActiveGameActivity(Long time){ //calls active game activity
             Intent intent = new Intent(GameSetupActivity.this, ActiveGameActivity.class);
-            Bundle bundle = new Bundle();
-//                    bundle.putInt("theItemPosition", 0);
-            intent.putExtras(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putLong(GameSQLiteHelper.COL_TIME_CREATED, time);
+//            intent.putExtra(GameSQLiteHelper.COL_TIME_CREATED, time);
+//            intent.putExtra("isTimeCreated", true);
+//            intent.putExtras(bundle);
             startActivity(intent);
         }
 
